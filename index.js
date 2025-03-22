@@ -1,25 +1,21 @@
-const express = require("express");
-const mysql = require("mysql2");
-require("dotenv").config();
+require('dotenv').config();
+const mysql = require('mysql2');
 
-const app = express();
-app.use(express.json());
-
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT || 3306,
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306,
 });
 
-db.connect(err => {
-    if (err) throw err;
-    console.log("Connected to MySQL");
+connection.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the database:', err.stack);
+    return;
+  }
+  console.log('Connected to the database as id ' + connection.threadId);
 });
 
-app.get("/", (req, res) => {
-    res.send("Backend is running!");
-});
-
+module.exports = connection;
 
