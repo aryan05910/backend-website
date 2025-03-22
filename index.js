@@ -10,6 +10,7 @@ const db = mysql.createConnection({
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
+    port: process.env.DB_PORT || 3306,
 });
 
 db.connect(err => {
@@ -21,6 +22,4 @@ app.get("/", (req, res) => {
     res.send("Backend is running!");
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
